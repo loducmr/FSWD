@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var user=localStorage.getItem("username");
+        var job=localStorage.getItem("job");
+        $(document).ready(function(){
+        $("#user").append(user);
+        $("#job").append(job);
+        });
+    </script>
+</head>
+<body>
+    <h2>WELCOME TO YOGO SOLUTIONS</h2>
+    <hr>
+    <h6>USER: </h6><b id="user"></b><br>
+    <h6>PROFESSION: </h6><b id="job"></b>
+</body>
+</html>

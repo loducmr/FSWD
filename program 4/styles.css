@@ -1,0 +1,16 @@
+body {
+    background-color: black;
+}
+
+.slider {
+    margin-top: 10%;
+}
+
+.slider img {
+    display: none;
+}
+
+.slider img.active {
+    display: block;
+    border: 2px solid white;
+}

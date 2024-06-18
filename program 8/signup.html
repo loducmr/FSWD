@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$(document).ready(function() {
+  $('#signUpForm').submit(()=>{
+  event.preventDefault();
+  var name = $("#username").val();
+  var password=$("#pwd").val();
+  var work=$("#work").val();
+  //generateToken by making a service call to /register with post
+  $.ajax({
+    url:"/register",
+    type:"POST",
+    contentType:"application/json",
+    dataType:"json",
+    data: JSON.stringify({
+    name: name,
+    password: password,
+    work:work
+    }),
+    success: function(data) {
+          var tokenData=data;
+          if(tokenData.signup==false){
+            alert("You are Already registered with us!!!");
+          }
+          else{
+            window.location.href="/login";
+          }
+          },
+          error: function(data ){
+            console.log("Something went wrong");
+
+            }
+          });
+        });
+});
+    </script>
+</head>
+<body>
+    <h2>SignUp</h2>
+    <form id="signUpForm">
+      <label for="username">Username:</label><br>
+      <input type="text" id="username" name="username"><br>
+      <label for="work">Profession:</label><br>
+      <input type="text" id="work" name="work"><br>
+      <label for="pwd">Password:</label><br>
+      <input type="password" id="pwd" name="pwd"><br><br>
+      <input type="submit" value="Submit">
+      <p id="msg"></p>
+    </form> 
+</body>
+</html>

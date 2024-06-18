@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Image Slider</title>
+    <link rel="stylesheet" href=
+    "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+    crossorigin="anonymous"></script>
+    <script src="slider.js"></script>
+</head>
+<body>
+    <center>
+        <div class="slider">
+            <img src="images/1.jpg" class="active">
+            <img src="images/2.jpg">
+            <img src="images/3.jpg">
+            <img src="images/4.jpg">
+            <img src="images/5.jpg">
+        </div>
+
+        <br><br>
+        <input type="button" class="btn btn-primary" 
+        onclick="changeSlide('previous')" value="Previous">
+        <input type="button" class="btn btn-success" 
+        onclick="slideshow(this)" value="Start Slideshow">
+        <input type="button" class="btn btn-primary" 
+        onclick="changeSlide('next')" value="Next">
+    </center>
+
+</body>
+</html>

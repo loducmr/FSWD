@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const form=$("#loginForm");
+        $(document).ready(function() {
+            $("#loginForm").submit((event)=>{
+                event.preventDefault();
+                var name = $("#username").val();
+                var password=$("#pwd").val();
+                //generateToken by making a service call to /auth with post
+                $.ajax({
+                url:"/auth",
+                type:"POST",
+                contentType:"application/json",
+                dataType:"json",
+                data: JSON.stringify({
+                name: name,
+                password: password}),
+                success: function(data) {
+                    var tokenData=data;
+                    if(tokenData.login==true){
+                        localStorage.setItem("username",tokenData.data.name);
+                        localStorage.setItem("job",tokenData.data.work);
+                        if(verifyLogin(tokenData.token))
+                        {
+                            window.location.href="/welcome";
+                        }
+                        else{
+                            alert("Authentication Failed");
+                        }
+                    }
+                },
+                error: function(data ){
+                    console.log("Something went wrong");
+                }
+                });
+            });
+        });
+
+    function verifyLogin(token)
+    {
+        let result=true;
+        //verifyToken by making a service call to /verifyToken with get
+        $.ajax({
+        url:"/verifyToken",
+        type:"POST",
+        contentType:"application/json",
+        dataType:"json",
+        data: JSON.stringify({
+        token: token}),
+        success: function(data) {
+            if(data.login==true)
+            {     
+                result=true;
+            }
+            else
+            {
+                result=false;
+            }
+        },
+        error: function(data ){
+            console.log("Wrong Token, Not Authenticated.");
+        }
+        });
+        return result;
+    }
+  </script>
+<body>
+    <center>
+        <h2>Sign In</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="pwd">Password:</label><br>
+            <input type="password" id="pwd" name="pwd"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </center>
+</body>
+</html>

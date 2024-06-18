@@ -1,0 +1,32 @@
+<div class="card shadow-sm w-50 mt-5 p-2 mx-auto " *ngIf="user">
+    <img class="avatar d-block mx-auto" src="https://cdn-icons-png.freepik.com/512/5733/5733290.png" alt="Icon" />
+    <h2 class="text-center">Hi, {{ user.name }}</h2>
+    <table class="table table-bordered mt-3">
+        <tr>
+            <th>Username</th>
+            <td>{{user.username}}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{user.email}}</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>{{ user.phone }}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{ user.address?.city }}</td>
+        </tr>
+        <tr>
+            <th>ZIP Code</th>
+            <td>{{ user.address?.zipcode }}</td>
+        </tr>
+        <tr>
+            <th>Website</th>
+            <td>{{ user.website }}</td>
+        </tr>
+    </table>
+   
+  </div>
+  

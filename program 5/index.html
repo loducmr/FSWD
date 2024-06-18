@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM VALIDATION</title>
+    <style>
+        * {
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+body {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: chocolate;
+}
+
+#create-account-form {
+    width:400px;
+    padding:20px;
+    text-transform: uppercase;
+    background-color: #fff;
+}
+
+#login-form {
+    width:400px;
+    padding:20px;
+    text-transform: uppercase;
+    background-color: #fff;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin:20px 0; 
+    position:relative;
+}
+
+.input-group label {
+    display:inline-block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    display:block;
+    width:100%;
+    padding:10px;   
+}
+
+.error input {
+    border:3px red solid;
+}
+
+.success input {
+    border:3px green solid;
+}
+
+ .input-group i {
+     position:absolute;
+     right:10px;
+     top:35px;
+     visibility: hidden;
+ }
+
+ .success i.fa-check-circle{
+     visibility: visible;
+     color:green;
+ }
+
+ .error i.fa-exclamation-circle {
+    visibility: visible;
+    color:red;
+}
+
+ .input-group p {
+     font-size: 15px;
+     color:red;
+     visibility: hidden;
+ }
+
+ .error p {
+     visibility: visible;
+ }
+
+ .btn {
+     width:100%;
+     padding:10px;
+     font-size: 20px;
+     background-color: chocolate;
+     color:#fff;
+     text-transform: uppercase;
+     border:none;
+ }
+    </style>
+    <script src="https://kit.fontawesome.com/2bbac3a66c.js" crossorigin="anonymous" ></script>
+</head>
+<body>
+    <form  id="create-account-form" action="/login" method="post">
+        
+        <div class="title">
+            <h2>Create Account</h2>
+        </div>
+        <!-- USERNAME -->
+        <div class="input-group">
+            <label for="username">Name</label>
+            <input type="text" id="username" placeholder="Name" name="username">
+            <!-- <i id="envelope" class="fa-solid fa-envelope"></i> -->
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Error Message</p>
+        </div>
+        <!-- EMAIL -->
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Email" name="email">
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Error Message</p>
+        </div>
+        <!-- PASSWORD -->
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Password" name="password">
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Error Message</p>
+        </div>
+        <!-- CONFIRM PASSWORD -->
+        <div class="input-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Password" name="confirmpassword">
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-exclamation-circle"></i>
+            <p>Error Message</p>
+        </div>
+
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+const form = document.querySelector('#create-account-form');
+const usernameInput = document.querySelector('#username');
+const emailInput = document.querySelector('#email');
+const passwordInput = document.querySelector('#password');
+const confirmPasswordInput = document.querySelector('#confirm-password');
+
+form.addEventListener('submit', (event)=>{
+    
+    validateForm();
+    console.log(isFormValid());
+    if(isFormValid()==true){
+        fetch('/login', {
+					method: 'POST',
+					headers: {
+						Authorization: 'Bearer abcdxyz',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						username,
+						password,
+					}),
+				})
+					.then((res) => {
+						return res.json();
+					})
+					.then((data) => console.log(data));    
+        // form.submit();
+     }else {
+         event.preventDefault();
+     }
+
+});
+
+function isFormValid(){
+    const inputContainers = form.querySelectorAll('.input-group');
+    let result = true;
+    inputContainers.forEach((container)=>{
+        if(container.classList.contains('error')){
+            result = false;
+        }
+    });
+    if(result==true)
+    {
+        if (typeof(Storage) !== "undefined") {
+            localStorage.setItem("username",emailInput.value);
+            localStorage.setItem("password",passwordInput.value);
+          } else {
+            console.log("Sorry, your browser does not support Web Storage...");
+          }
+    }
+    return result;
+}
+
+function validateForm() {
+    //USERNAME
+    if(usernameInput.value.trim()==''){
+        setError(usernameInput, 'Name can not be empty');
+    }else if(usernameInput.value.trim().length <5 || usernameInput.value.trim().length > 15){
+        setError(usernameInput, 'Name must be min 5 and max 15 charecters');
+    }else {
+        setSuccess(usernameInput);
+    }
+    //EMAIL
+    if(emailInput.value.trim()==''){
+        setError(emailInput, 'Provide email address');
+    }else if(isEmailValid(emailInput.value)){
+        setSuccess(emailInput);
+    }else{
+        setError(emailInput, 'Provide valid email address');
+    }
+
+    //PASSWORD
+    if(passwordInput.value.trim()==''){
+        setError(passwordInput, 'Password can not be empty');
+    }else if(passwordInput.value.trim().length <6 || passwordInput.value.trim().length >20){
+        setError(passwordInput, 'Password min 6 max 20 charecters');
+    }else {
+        setSuccess(passwordInput);
+    }
+    //CONFIRM PASSWORD
+    if(confirmPasswordInput.value.trim()==''){
+        setError(confirmPasswordInput, 'Password can not be empty');
+    }else if(confirmPasswordInput.value !== passwordInput.value){
+        setError(confirmPasswordInput, 'Password does not match');
+    }else {
+        setSuccess(confirmPasswordInput);
+    }
+}
+
+function setError(element, errorMessage) {
+    const parent = element.parentElement;
+    if(parent.classList.contains('success')){
+        parent.classList.remove('success');
+    }
+    parent.classList.add('error');
+    const paragraph = parent.querySelector('p');
+    paragraph.textContent = errorMessage;
+}
+
+function setSuccess(element){
+    const parent = element.parentElement;
+    if(parent.classList.contains('error')){
+        parent.classList.remove('error');
+    }
+    parent.classList.add('success');
+}
+
+function isEmailValid(email){
+    const reg =/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+    return reg.test(email);
+}
+    </script>
+</body>
+</html>
+
+<!-- 
+
+    <i class="fas fa-check-circle"></i>
+    <i class="fas fa-exclamation-circle"></i>
+
+ -->

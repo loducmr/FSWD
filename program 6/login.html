@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+    <style>
+        h2{
+            display: none;
+        }
+    </style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+const form=$("#loginForm");
+$(document).ready(function() {
+  $("#loginForm").submit((event)=>{
+  event.preventDefault();
+  var name = $("#username").val();
+  var password=$("#pwd").val();
+  //generateToken by making a service call to /auth with post
+  $.ajax({
+    url:"/auth",
+    type:"POST",
+    contentType:"application/json",
+    dataType:"json",
+    data: JSON.stringify({
+    name: name,
+    password: password
+    }),
+    success: function(data) {
+          var tokenData=data;
+          if(tokenData.login==true){
+            if(verifyLogin(tokenData.token))
+            {
+                $("#verified").show();
+                $("#not-verified").hide();
+                alert("JWT Token: "+tokenData.token);
+            }
+          }
+          else{
+            $("#verified").hide();
+            $("#not-verified").show();
+            alert("Authentication Failed");
+            }
+          },
+          error: function(data ){
+            console.log("Something went wrong");
+            }
+          });
+        });
+});
+
+function verifyLogin(token)
+{
+  let result=true;
+  //verifyToken by making a service call to /verifyToken with get
+  $.ajax({
+    url:"/verifyToken",
+    type:"POST",
+    contentType:"application/json",
+    dataType:"json",
+    data: JSON.stringify({
+    token: token,
+    }),
+    success: function(data) {
+      if(data.login==true)
+      {
+          result=true;
+      }
+      else
+      {
+        result=false;
+      }
+   },
+          error: function(data ){
+            console.log("Wrong Token, Not Authenticated.");
+            }
+          });
+    return result;
+}
+  </script>
+<body>
+<h2>Sign In</h2>
+<form id="loginForm">
+  <label for="username">Username:</label><br>
+  <input type="text" id="username" name="username"><br>
+  <label for="pwd">Password:</label><br>
+  <input type="password" id="pwd" name="pwd"><br><br>
+  <input type="submit" value="Submit">
+</form>
+  <h2 id="verified">You are a verified user </h2>
+  <h2 id="not-verified">You are not a verified user </h2>
+</body>
+</html>
