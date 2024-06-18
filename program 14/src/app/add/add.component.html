@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6 mb-3">
+<h2>Enter Product Details</h2>
+<form [formGroup]="myform" (ngSubmit)="addProduct()">
+  <div class="mb-3">
+    <label for="productcategory" class="form-label">Product Category</label>
+    <input type="text" class="form-control" formControlName="prodcat">
+  </div>
+  <div class="mb-3">
+    <label for="productid" class="form-label">Product Id</label>
+    <input type="text" class="form-control" formControlName="pid">
+  </div>
+  <div class="mb-3">
+    <label for="productname" class="form-label">Product Name</label>
+    <input type="text" class="form-control" formControlName="name">
+  </div>
+  <div class="mb-3">
+    <label for="productcost" class="form-label">Product Cost</label>
+    <input type="text" class="form-control" formControlName="cost">
+  </div>
+  <input type="submit" class="btn btn-primary" value="Submit">
+</form>
+<p>{{message}}</p>
+</div>
+</div>
+
