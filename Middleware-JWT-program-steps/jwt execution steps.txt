@@ -1,0 +1,33 @@
+https://github.com/Jyotsna-Akkinapalli/FSD-Lab/program 6
+
+https://github.com/Jyotsna-Akkinapalli/FSD-Lab/program 7
+
+=>npm install node express jsonwebtoken fs
+
+=> node server.js
+
+============================================
+explain middle ware and jwt with example
+
+=> install rest client in the vs code
+=> npm install node express jsonwebtoken dotenv
+=> create a file with name: .env
+=> goto terminal type node and enter
+=> in the node terminal type require('crypto').randomBytes(64).toString('hex');
+=> the above command will generate an access_token_secret. copy it to .env file
+=> again run the command and keep it as Refresh_token_secret in the .env file
+=> create a file called "request.rest" and place the api request calls there
+=> create a server file and write your api's 
+=> now npm install nodemon
+=> open package.json file and add in the scripts
+    scripts
+    {
+       devStart: "nodemon server.js"
+    }
+=> npm run start
+=> while the server is running goto request.rest
+ take the proper data in the call and click on send request
+=> you can see the response in the side window. copy the token from there.
+=> Now paste the token in the second verifytoken api as bearer and send request. this will give you the data as response.
+
+
